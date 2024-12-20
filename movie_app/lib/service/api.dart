@@ -11,6 +11,7 @@ class Api {
   final popular = 'https://api.themoviedb.org/3/movie/popular?';
   final top_rated = 'https://api.themoviedb.org/3/movie/top_rated?';
   final upcoming = 'https://api.themoviedb.org/3/movie/upcoming?';
+  final serch_movie = 'https://api.themoviedb.org/3/search/movie?';
 
   Future<List<MovieModle>> getNowPlaying() async {
     final response = await http.get(Uri.parse('$now_playing$apiKey'));

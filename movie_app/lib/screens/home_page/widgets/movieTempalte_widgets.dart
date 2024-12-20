@@ -28,7 +28,7 @@ class MovieTempalte extends StatelessWidget {
 
           final List movies = snapshot.data!;
           return SizedBox(
-            height: 188,
+            height: 208,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -36,16 +36,35 @@ class MovieTempalte extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(3.0),
-                  child: Container(
-                    width: 125,
-                    height: 180,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade800,
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(movies[index].posterPath),
-                            fit: BoxFit.cover)),
-                    //
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 125,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade800,
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(movies[index].posterPath),
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                          width: 125,
+                          child: Center(
+                            child: Text(
+                              '${movies[index].title}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          )),
+                    ],
                   ),
                 );
               },
