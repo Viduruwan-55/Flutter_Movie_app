@@ -61,13 +61,14 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(width: 10),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           Logger().i(_queryController.text);
-                          Navigator.push(
+                          await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: ((context) => SearchMovies(
                                       query: _queryController.text))));
+                          _queryController.clear();
                         },
                         child: CircleAvatar(
                           radius: 20,

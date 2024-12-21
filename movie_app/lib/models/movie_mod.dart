@@ -1,3 +1,6 @@
+import 'package:logger/logger.dart';
+import 'package:movie_app/models/company_model.dart';
+
 class MovieModle {
   bool adult;
   String backdropPath;
@@ -12,6 +15,8 @@ class MovieModle {
   bool video;
   double voteAverage;
   int voteCount;
+  String? tagline;
+  List<CompanyModel>? companies;
 
   MovieModle({
     required this.adult,
@@ -27,9 +32,20 @@ class MovieModle {
     required this.voteAverage,
     required this.voteCount,
     required this.title,
+    this.tagline,
+    this.companies,
   });
 
   factory MovieModle.fromJson(Map<String, dynamic> json) {
+    List<CompanyModel>? companies = [];
+    if (json['production_companies'] != null) {
+      for (var companyData in (json['production_companies'] as List<dynamic>)) {
+        CompanyModel company =
+            CompanyModel.fromJson(companyData as Map<String, dynamic>);
+        Logger().e(company.name);
+        companies.add(company);
+      }
+    }
     return MovieModle(
       adult: json['adult'],
       backdropPath: 'https://image.tmdb.org/t/p/w500${json['backdrop_path']}',
@@ -38,6 +54,8 @@ class MovieModle {
       id: json['id'],
       original_title: json['original_title'],
       overview: json['overview'],
+      tagline: json['tagline'],
+      companies: companies,
       popularity: json['popularity'],
       posterPath: 'https://image.tmdb.org/t/p/w500${json['poster_path']}',
       releaseDate: json['release_date'],

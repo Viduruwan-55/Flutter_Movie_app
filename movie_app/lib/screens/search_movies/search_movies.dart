@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/models/movie_mod.dart';
+import 'package:movie_app/service/api.dart';
 
 class SearchMovies extends StatefulWidget {
   final String query;
@@ -20,15 +22,28 @@ class _SearchMoviesState extends State<SearchMovies> {
         foregroundColor: Colors.grey.shade300,
       ),
       body: FutureBuilder(
-          future: Future.delayed(const Duration(seconds: 3)),
-          builder: (context, AsyncSnapshot) {
+          future: Api().searchMovies(widget.query),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError ||
+                snapshot.data == null ||
+                snapshot.data == []) {
+              return Center(
+                  child: Text(
+                'Error',
+                style: GoogleFonts.sansita(fontSize: 20, color: Colors.white24),
+              ));
+            }
+            final List<MovieModle> movies = snapshot.data!;
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.7,
+                  childAspectRatio: 0.75,
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 4),
-              itemCount: 5,
+              itemCount: movies.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -38,9 +53,8 @@ class _SearchMoviesState extends State<SearchMovies> {
                     decoration: BoxDecoration(
                       color: Colors.grey.shade800,
                       borderRadius: BorderRadius.circular(20),
-                      image: const DecorationImage(
-                          image: NetworkImage(
-                              'https://media.themoviedb.org/t/p/w220_and_h330_face/hklQwv6QVoOp5bWyh1bjuF2ydyG.jpg'),
+                      image: DecorationImage(
+                          image: NetworkImage(movies[index].posterPath),
                           fit: BoxFit.cover),
                     ),
                   ),

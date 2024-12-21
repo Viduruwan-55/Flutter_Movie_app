@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/screens/detail_view/movie_view.dart';
 
 class MovieTempalte extends StatelessWidget {
   final Future<List<dynamic>> future;
@@ -51,19 +53,29 @@ class MovieTempalte extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      SizedBox(
-                          width: 125,
-                          child: Center(
-                            child: Text(
-                              '${movies[index].title}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.lato(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          )),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MovieView(
+                                        movie: movies[movies.indexOf(movies)],
+                                      )));
+                        },
+                        child: SizedBox(
+                            width: 125,
+                            child: Center(
+                              child: Text(
+                                '${movies[index].title}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.lato(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 );
