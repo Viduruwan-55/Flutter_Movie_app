@@ -100,20 +100,19 @@ class Api {
     }
   }
 
-  Future<List> movieDetails(String id) async {
-    final response = await http.get(Uri.parse('$movie_details$id&$apiKey'));
-    if (response.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      List<dynamic> result = body['results'];
-      List<Map<String, dynamic>> movies_list =
-          result.map((e) => e as Map<String, dynamic>).toList();
-      List<MovieModle> movies =
-          movies_list.map((data) => MovieModle.fromJson(data)).toList();
-      Logger().f(movies.length);
-      return movies;
-    } else {
-      Logger().e('Failed to fetch data');
-      return [];
+  Future<MovieModle?> getmovieDetails(String id) async {
+    try {
+      final response = await http.get(Uri.parse('$movie_details$id?$apiKey'));
+      if (response.statusCode == 200) {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        return MovieModle.fromJson(body);
+      } else {
+        Logger().e('Failed to fetch data');
+        return null;
+      }
+    } catch (e) {
+      Logger().e('Failed to fetch data: $e');
     }
+    return null;
   }
 }

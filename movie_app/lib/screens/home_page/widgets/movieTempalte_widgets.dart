@@ -7,8 +7,8 @@ class MovieTempalte extends StatelessWidget {
   final Future<List<dynamic>> future;
   const MovieTempalte({
     required this.future,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class MovieTempalte extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MovieView(
-                                        movie: movies[movies.indexOf(movies)],
+                                        movie: movies[index],
                                       )));
                         },
                         child: SizedBox(

@@ -4,7 +4,7 @@ import 'package:movie_app/models/company_model.dart';
 class MovieModle {
   bool adult;
   String backdropPath;
-  List<int> genre_ids;
+  List<int>? genre_ids;
   int id;
   String original_title;
   String overview;
@@ -49,8 +49,9 @@ class MovieModle {
     return MovieModle(
       adult: json['adult'],
       backdropPath: 'https://image.tmdb.org/t/p/w500${json['backdrop_path']}',
-      genre_ids:
-          (json['genre_ids'] as List<dynamic>).map((e) => e as int).toList(),
+      genre_ids: json['genre_ids'] != null
+          ? (json['genre_ids'] as List<dynamic>).map((e) => e as int).toList()
+          : null,
       id: json['id'],
       original_title: json['original_title'],
       overview: json['overview'],
