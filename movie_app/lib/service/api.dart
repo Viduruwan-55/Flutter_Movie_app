@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:movie_app/models/cast_model.dart';
 import 'package:movie_app/models/movie_mod.dart';
 
 class Api {
@@ -114,5 +115,21 @@ class Api {
       Logger().e('Failed to fetch data: $e');
     }
     return null;
+  }
+
+  Future<List<CastModel>> getCast(String id) async {
+    final response =
+        await http.get(Uri.parse('$movie_details$id/credits?$apiKey'));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      List<dynamic> castData = body['cast'];
+      List<CastModel> cast = castData
+          .map((e) => CastModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return cast;
+    } else {
+      Logger().e('Failed to fetch data');
+      return [];
+    }
   }
 }
